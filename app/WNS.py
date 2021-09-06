@@ -108,7 +108,7 @@ scores = {}
 try:
     scores_file = os.getenv('SCORES_MARSHAL_PATH',"./scores.marshal")
     if os.path.isfile(scores_file):
-        f = open(,"rb")
+        f = open(scores_file,"rb")
         scores = marshal.load(f)
         f.close()
 except IOError:
