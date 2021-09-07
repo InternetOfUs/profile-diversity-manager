@@ -9,7 +9,7 @@ else
 	if [ $? -eq 0 ]; then
 		docker tag internetofus/profile-diversity-manager:$VERSION internetofus/profile-diversity-manager:latest
 		DOCKER_BUILDKIT=1 docker build -f docker/dev/Dockerfile -t internetofus/profile-diversity-manager:dev .
-		docker run --rm --name profile_diversity_manager_dev -v ${PWD}:/app -p 9000:9000 -it internetofus/profile-diversity-manager:dev /bin/bash
+		docker run --rm --name profile_diversity_manager_dev -v "${PWD}":/app -p 9000:9000 -it internetofus/profile-diversity-manager:dev /bin/bash
 	fi
 	popd >/dev/null
 fi
