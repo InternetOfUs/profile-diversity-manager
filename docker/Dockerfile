@@ -27,7 +27,7 @@ ADD https://github.com/TALP-UPC/FreeLing/releases/download/4.2/FreeLing-src-4.2.
 RUN tar zxvf FreeLing-src-4.2.tar.gz
 ADD https://github.com/TALP-UPC/FreeLing/releases/download/4.2/FreeLing-langs-src-4.2.tar.gz .
 RUN tar zxvf FreeLing-langs-src-4.2.tar.gz
-RUN cd FreeLing-4.2 && mkdir -p build && cd build && cmake -DPYTHON3_API=ON .. && make -j8 && make -j8 install
+RUN cd FreeLing-4.2 && mkdir -p build && cd build && cmake -DPYTHON3_API=ON .. && make -j$(nproc) && make -j$(nproc) install
 RUN rm -rf FreeLing-4.2 *tar.gz
 ENV PYTHONPATH=/usr/local/share/freeling/APIs/python3:$PYTHONPATH
 
@@ -53,3 +53,5 @@ RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY ./app /app
+
+EXPOSE ${PORT}
