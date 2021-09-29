@@ -21,15 +21,19 @@ build_docker:
 
 build_docker_dev:
   stage: build
+  needs: ["build_docker"]
+  dependencies:
+    - build_docker
   script:
     - docker pull $CI_REGISTRY_IMAGE:dev  || true
     - DOCKER_BUILDKIT=1 docker build -f docker/dev/Dockerfile --cache-from $CI_REGISTRY_IMAGE:dev -t $CI_REGISTRY_IMAGE:dev .
     - docker push $CI_REGISTRY_IMAGE:dev
-  dependencies:
-    - build_docker
     
 buil_test_site:
   stage: test
+  needs: ["build_docker_dev"]
+  dependencies:
+    - build_docker_dev
   script:
     - docker pull $CI_REGISTRY_IMAGE:dev || true
     - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $CI_PROJECT_DIR:/app -v $CI_PROJECT_DIR/.m2/repository:/root/.m2/repository -t $CI_REGISTRY_IMAGE:dev /bin/bash -c "source /root/.bashrc && cd /app/tests && pytest --cov=../app --junitxml=report.xml && coverage xml"
