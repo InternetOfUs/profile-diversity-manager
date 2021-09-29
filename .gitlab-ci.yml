@@ -9,12 +9,12 @@ variables:
   
 before_script:
   - echo -n $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+  - export COMPONENT_VERSION=$(grep 'version' $CI_PROJECT_DIR/app/main.py | head -n1 | awk -F '"' '{ print $2 }' | awk -F '"' '{ print $1 }')
 
 
 build_docker:
   stage: build
   script:
-    - export COMPONENT_VERSION=$(grep 'version' $CI_PROJECT_DIR/app/main.py | head -n1 | awk -F '"' '{ print $2 }' | awk -F '"' '{ print $1 }')
     - docker pull $CI_REGISTRY_IMAGE:$COMPONENT_VERSION  || true
     - DOCKER_BUILDKIT=1 docker build -f docker/Dockerfile --cache-from $CI_REGISTRY_IMAGE:$COMPONENT_VERSION -t $CI_REGISTRY_IMAGE:$COMPONENT_VERSION .
     - docker push $CI_REGISTRY_IMAGE:$COMPONENT_VERSION
@@ -25,6 +25,7 @@ build_docker_dev:
   dependencies:
     - build_docker
   script:
+    - docker pull $CI_REGISTRY_IMAGE:$COMPONENT_VERSION  || true
     - docker pull $CI_REGISTRY_IMAGE:dev  || true
     - DOCKER_BUILDKIT=1 docker build -f docker/dev/Dockerfile --cache-from $CI_REGISTRY_IMAGE:dev -t $CI_REGISTRY_IMAGE:dev .
     - docker push $CI_REGISTRY_IMAGE:dev
