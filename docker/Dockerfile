@@ -2,7 +2,7 @@
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8-slim
 
 ARG DEFAULT_HOST="0.0.0.0"
-ARG DEFAULT_PORT=9000
+ARG DEFAULT_PORT=80
 ARG DEFAULT_LOG_LEVEL=info
 ARG DEFAULT_MAX_EXECUTOR_WORKERS=4
 
@@ -53,5 +53,3 @@ RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY ./app /app
-
-EXPOSE ${PORT}

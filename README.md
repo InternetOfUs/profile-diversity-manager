@@ -35,11 +35,11 @@ On this environment you have access to the commands:
   Not detect the changes, so to be effective you must stop and start again.
  
 In both casses you can interact with the stertaed server
-at **http://localhost:9000/doc** or at **http://localhost:9000/redoc**.
+at **http://localhost/doc** or at **http://localhost/redoc**.
 Also you can stop the server with keys combinations **Control-C**.
 
-If you go to the **test** directory you can run all the test with the command
-**pytest**.
+If you go to the **tests** directory and execute the command `pytest --cov=../app`
+to run all test and obtain a coverage measure of them.
 
 If you not **exit** from the development environment, may be the next time
 you try to start it will fail. In this case before to start again try
@@ -56,7 +56,7 @@ You can create the docker container with the script **buildDockerImage.sh**.
 The created container has the next parameters:
 
  - **HOST** it is the host to bind the server. By default is set to **0.0.0.0**.
- - **PORT** it is set port to bind teh server. By default is set to **9000**.
+ - **PORT** it is set port to bind teh server. By default is set to **80**.
  - **MAX_EXECUTOR_WORKERS** it is set to the number of backgound threads that
    the server will use. By default is set to **4**.
  - **LOG_LEVEL** the logging level (debug,info,warning,error or critical).
