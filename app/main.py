@@ -104,6 +104,8 @@ async def post_calculate_diversity_of(data:UsersData):
         
     # Calculate the diversity of the agents
     users_diversity = diversity(agents,reqattr)
+    ## !!!! THE NEXT LINE IS ONLY BECAUSE DO AN AGGREGATION
+    users_diversity /= len(reqattr)
     return {
         "value": users_diversity
     } 

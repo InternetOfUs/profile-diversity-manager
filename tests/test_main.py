@@ -36,3 +36,31 @@ def test_get_help_info():
     assert 'softwareVersion' in body
     assert 'vendor' in body
     assert 'license' in body
+
+
+@pytest.mark.timeout(30)
+def test_post_calculate_diversity_of():
+    """Test calculate diversity of two users"""
+    data = {
+        "users":[
+                {
+                    "id":"1",
+                    "attributes":{
+                            "attribute_1":1.0,
+                            "attribute_2":1.0,
+                            "attribute_3":1.0
+                    }
+                },
+                {
+                    "id":"2",
+                    "attributes":{
+                            "attribute_1":0.0,
+                            "attribute_2":0.0,
+                            "attribute_3":0.0
+                    }
+                }
+            ]
+        }
+    response = client.post("/calculateDiversityOf", json=data)
+    assert response.status_code == 200
+    assert response.json() == {"value":0.5}
