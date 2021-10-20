@@ -66,14 +66,19 @@ class Aggregation(str, Enum):
     q90 = "q90"
 
 # The data to filter the attributes
-class AttributesToFilterBySimilarity(BaseModel):
+class AttributesData(BaseModel):
     source: str = Field(...,description="Source string to obtain the similarity.",example="I hate planes")
-    attributes: List[str] = Field(...,description="Attributes to filter",example="[\"attribute1\",\"attribute2\"]")
+    attributes: List[str] = Field([],description="Attributes to filter",example="[\"attribute1\",\"attribute2\"]")
     aggregation: Aggregation = Field("max",description="The aggregation value to use")
-    threshold: float = Field(0.5,ge=0.0,le=1.0,description="The minimum similarity to the attributes to filter")
 
-class FilteredAttributes(BaseModel):
-    attributes: List[str] = Field(...,description="Attributes that has been filtered filter")
+# The similarity of an attribute
+class AttributeSimilarity(BaseModel):
+    attribute: str = Field(...,description="The name of the attribute.")
+    similarity: float = Field(...,ge=0.0,le=1.0,description="The similarity of the attribute.")
+
+# The diversity of some users
+class Similarities(BaseModel):
+    similarities: List[AttributeSimilarity] = Field([],description="The similarities of the text with the attributes.")
     
 @app.get(
     "/help/info",
@@ -138,21 +143,20 @@ async def post_calculate_diversity_of(data:AgentsData):
     } 
 
 @app.post(
-    "/filterAttributesBySimilarity",
-    description="Filter a set of attributes by its similarity to a text",
+    "/calculateSimilarityOf",
+    description="Obtain the similarity between some attributes and some text",
     status_code=200,
-    response_model=FilteredAttributes
+    response_model=Similarities
 )
-async def post_filter_attributes_by_similarity(data:AttributesToFilterBySimilarity):
+async def post_calculate_similarity_of(data:AttributesData):
     
-    attributes = []
+    attribute_similarities = []
     source_lang = detect_lang(data.source)
     for attribute in data.attributes:
         sim = sim_str_str(data.source,attribute,source_lang,"en",data.aggregation)
-        print(sim)
-        if sim >= data.threshold:
-            attributes.append(attribute)
+        attribute_similarities.append({"attribute":attribute,"similarity":sim})
+        
     return {
-        "attributes": attributes
+        "similarities": attribute_similarities
     } 
 

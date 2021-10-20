@@ -96,7 +96,7 @@ def test_post_calculate_diversity_of_none_agents():
 
 @pytest.mark.timeout(30)
 def test_post_calculate_diversity_of_none_attribues():
-    """Test calculate diversity of none agents"""
+    """Test calculate diversity of none attributes"""
     data = {
         "agents":[
                 {
@@ -131,12 +131,23 @@ def test_post_calculate_diversity_of_none_attribues():
 
 
 @pytest.mark.timeout(30)
-def test_post_filter_attributes_by_similarity():
-    """Test filter a set of attributes by similarity"""
+def test_post_calculate_similarity_of():
+    """Test similarity some attributes"""
     data = {
-        "source":"",
-        "attributes":["", "", "" ]
+        "source":"Do you have a bike?",
+        "attributes":["car", "vehicle", "plane" ]
         }
-    response = client.post("/filterAttributesBySimilarity", json=data)
+    response = client.post("/calculateSimilarityOf", json=data)
     assert response.status_code == 200
-    assert response.json() == {"attributes":[]}
+    assert response.json() == {"similarities":[{"attribute":"car", "similarity":0.6239031848677311}, {"attribute":"vehicle", "similarity":0.6239031848677311}, {"attribute":"plane", "similarity":0.0}]}
+
+
+@pytest.mark.timeout(30)
+def test_post_calculate_similarity_of_none_attributes():
+    """Test similarity without attributes"""
+    data = {
+        "source":"Do you have a bike?"
+        }
+    response = client.post("/calculateSimilarityOf", json=data)
+    assert response.status_code == 200
+    assert response.json() == {"similarities":[]}
