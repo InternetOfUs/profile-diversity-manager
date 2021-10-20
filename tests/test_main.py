@@ -135,11 +135,11 @@ def test_post_calculate_similarity_of():
     """Test similarity some attributes"""
     data = {
         "source":"Do you have a bike?",
-        "attributes":["car", "vehicle", "plane" ]
+        "attributes":["car", "plane", "vehicle" ]
         }
     response = client.post("/calculateSimilarityOf", json=data)
     assert response.status_code == 200
-    assert response.json() == {"similarities":[{"attribute":"car", "similarity":0.6239031848677311}, {"attribute":"vehicle", "similarity":0.6239031848677311}, {"attribute":"plane", "similarity":0.0}]}
+    assert response.json() == {"similarities":[{"attribute":"car", "similarity":0.6239031848677311}, {"attribute":"plane", "similarity":0.0}, {"attribute":"vehicle", "similarity":0.6239031848677311}]}
 
 
 @pytest.mark.timeout(30)
