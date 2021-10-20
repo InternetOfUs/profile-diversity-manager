@@ -73,8 +73,8 @@ class AttributesData(BaseModel):
 
 # The similarity of an attribute
 class AttributeSimilarity(BaseModel):
-    attribute: str = Field(...,description="The name of the attribute.")
-    similarity: float = Field(...,ge=0.0,le=1.0,description="The similarity of the attribute.")
+    attribute: str = Field(...,description="The name of the attribute.",example="\"attribute1\"")
+    similarity: float = Field(0.0,ge=0.0,le=1.0,description="The similarity of the attribute.")
 
 # The diversity of some users
 class Similarities(BaseModel):
