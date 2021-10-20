@@ -35,7 +35,7 @@ def test_calculate_diversity_for_oposed_agents():
     ]
     reqattr = [Attribute("property1", QN, [0, 1]), Attribute("property2", QN, [0, 1]), Attribute("property3", QN, [0, 1])]
     div = diversity(agents, reqattr)
-    assert div == 0.5
+    assert div == 1.5
 
 
 @pytest.mark.timeout(30)
@@ -75,4 +75,4 @@ def test_calculate_diversity_for_different_agents():
     ]
     reqattr = [Attribute("property1", QN, [0, 1]), Attribute("property2", QN, [0, 1]), Attribute("property3", QN, [0, 1])]
     div = diversity(agents, reqattr)
-    assert 0.0 <= div <= 1.0
+    assert 0.0 <= div <= 3.0

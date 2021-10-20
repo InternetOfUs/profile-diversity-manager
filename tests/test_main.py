@@ -40,27 +40,103 @@ def test_get_help_info():
 
 @pytest.mark.timeout(30)
 def test_post_calculate_diversity_of():
-    """Test calculate diversity of two users"""
+    """Test calculate diversity of two agents"""
     data = {
-        "users":[
+        "agents":[
                 {
                     "id":"1",
-                    "attributes":{
-                            "attribute_1":1.0,
-                            "attribute_2":1.0,
-                            "attribute_3":1.0
+                    "quantitativeAttributes":{
+                            "introvert":1.0,
+                            "extrovert":1.0,
+                            "naturalist":1.0
+                    },
+                    "qualitativeAttributes":{
+                            "gender":"M",
+                            "civilStatus":"married"
                     }
                 },
                 {
                     "id":"2",
-                    "attributes":{
-                            "attribute_1":0.0,
-                            "attribute_2":0.0,
-                            "attribute_3":0.0
+                    "quantitativeAttributes":{
+                            "introvert":0.0,
+                            "extrovert":0.0,
+                            "naturalist":0.0
+                    },
+                    "qualitativeAttributes":{
+                            "gender":"F",
+                            "civilStatus":"single"
+                    }
+                }
+            ],
+        "qualitativeAttributes": {
+                "gender":["M", "F", "O"],
+                "civilStatus":["single", "married", "divorced", "widow"]
+            },
+        "quantitativeAttributes": ["introvert", "extrovert", "naturalist"]
+        }
+    response = client.post("/calculateDiversityOf", json=data)
+    assert response.status_code == 200
+    assert response.json() == {"value":0.5261859507142914}
+
+
+@pytest.mark.timeout(30)
+def test_post_calculate_diversity_of_none_agents():
+    """Test calculate diversity of none agents"""
+    data = {
+        "qualitativeAttributes": {
+                "gender":["M", "F", "O"],
+                "civilStatus":["single", "married", "divorced", "widow"]
+            },
+        "quantitativeAttributes": ["introvert", "extrovert", "naturalist"]
+        }
+    response = client.post("/calculateDiversityOf", json=data)
+    assert response.status_code == 200
+    assert response.json() == {"value":0.0}
+
+
+@pytest.mark.timeout(30)
+def test_post_calculate_diversity_of_none_attribues():
+    """Test calculate diversity of none agents"""
+    data = {
+        "agents":[
+                {
+                    "id":"1",
+                    "quantitativeAttributes":{
+                            "introvert":1.0,
+                            "extrovert":1.0,
+                            "naturalist":1.0
+                    },
+                    "qualitativeAttributes":{
+                            "gender":"M",
+                            "civilStatus":"married"
+                    }
+                },
+                {
+                    "id":"2",
+                    "quantitativeAttributes":{
+                            "introvert":0.0,
+                            "extrovert":0.0,
+                            "naturalist":0.0
+                    },
+                    "qualitativeAttributes":{
+                            "gender":"F",
+                            "civilStatus":"single"
                     }
                 }
             ]
         }
     response = client.post("/calculateDiversityOf", json=data)
     assert response.status_code == 200
-    assert response.json() == {"value":0.5}
+    assert response.json() == {"value":0.0}
+
+
+@pytest.mark.timeout(30)
+def test_post_filter_attributes_by_similarity():
+    """Test filter a set of attributes by similarity"""
+    data = {
+        "source":"",
+        "attributes":["", "", "" ]
+        }
+    response = client.post("/filterAttributesBySimilarity", json=data)
+    assert response.status_code == 200
+    assert response.json() == {"attributes":[]}
