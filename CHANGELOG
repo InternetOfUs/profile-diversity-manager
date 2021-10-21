@@ -3,6 +3,7 @@
 All notable changes to `wenet-profile-diversity-manager` will be documented in this file
 
 
-## Version 0.1.0 (2021-09-06)
+## Version 0.1.0 (2021-10-21)
 
- * Project skeleton
+ * Provide diversity calculus web service.
+ * Provide similarity calculus web service.

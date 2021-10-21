@@ -15,13 +15,6 @@ First of all, you must install the next software.
  - [docker](https://docs.docker.com/install/)
  - [docker compose](https://docs.docker.com/compose/install/)
 
-
-### Requirements
-
-The profile manager component requires:
-
-TODO
-
 ### Development
 
 First of all you need to installl the [docker](https://docker.io),
