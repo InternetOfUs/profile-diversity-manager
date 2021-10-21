@@ -151,3 +151,11 @@ def test_post_calculate_similarity_of_none_attributes():
     response = client.post("/calculateSimilarityOf", json=data)
     assert response.status_code == 200
     assert response.json() == {"similarities":[]}
+
+
+@pytest.mark.timeout(30)
+def test_post_calculate_similarity_of_empty_json_fail():
+    """Test similarity with empty json fail"""
+    data = {        }
+    response = client.post("/calculateSimilarityOf", json=data)
+    assert response.status_code == 422

@@ -151,10 +151,14 @@ async def post_calculate_diversity_of(data:AgentsData):
 async def post_calculate_similarity_of(data:AttributesData):
     
     attribute_similarities = []
-    source_lang = detect_lang(data.source)
-    for attribute in data.attributes:
-        sim = sim_str_str(data.source,attribute,source_lang,"en",data.aggregation)
-        attribute_similarities.append({"attribute":attribute,"similarity":sim})
+    try:
+        source_lang = detect_lang(data.source)
+        for attribute in data.attributes:
+            sim = sim_str_str(data.source,attribute,source_lang,"en",data.aggregation)
+            attribute_similarities.append({"attribute":attribute,"similarity":sim})
+    except:
+        #Ignore exceptions
+        attribute_similarities = []                
         
     return {
         "similarities": attribute_similarities
