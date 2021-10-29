@@ -18,6 +18,7 @@ from enum import Enum
 import json
 from math import comb
 import os
+import re
 import time
 
 from WNS import sim_str_str, detect_lang
@@ -31,7 +32,7 @@ from typing import List, Dict
 app  = FastAPI(
     title="ProfileDiversityManager",
     description="Extension of the profile manager to manage the diversity.",
-    version="0.1.0"
+    version="0.2.0"
 )
 
 # Obtain information of the API
@@ -91,7 +92,7 @@ async def get_help_info():
     return {
         "name": "wenet/profile-diversity-manager",
         "apiVersion": "0.1.0",
-        "softwareVersion": "0.1.0",
+        "softwareVersion": "0.2.0",
         "vendor": "UDT-IA, IIIA-CSIC",
         "license": "Apache v2"
     } 
@@ -153,8 +154,12 @@ async def post_calculate_similarity_of(data:AttributesData):
     attribute_similarities = []
     try:
         source_lang = detect_lang(data.source)
+        pattern_camel = re.compile(r'(?<!^)(?=[A-Z])')
+        pattern_word = re.compile(r'(\W|\.|_)')
         for attribute in data.attributes:
-            sim = sim_str_str(data.source,attribute,source_lang,"en",data.aggregation)
+            normalized_attribute = pattern_camel.sub(' ',attribute).lower()
+            normalized_attribute = pattern_word.sub(' ',normalized_attribute)
+            sim = sim_str_str(data.source,normalized_attribute,source_lang,"en",data.aggregation)
             attribute_similarities.append({"attribute":attribute,"similarity":sim})
     except:
         #Ignore exceptions

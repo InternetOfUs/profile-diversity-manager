@@ -2,6 +2,10 @@
 
 All notable changes to `wenet-profile-diversity-manager` will be documented in this file
 
+## Version 0.2.0 (2021-10-29)
+
+ * Add normalization for the profile attributes.
+ 
 
 ## Version 0.1.0 (2021-10-21)
 

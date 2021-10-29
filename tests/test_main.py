@@ -143,6 +143,18 @@ def test_post_calculate_similarity_of():
 
 
 @pytest.mark.timeout(30)
+def test_post_calculate_similarity_of_with_non_normalized_attributes():
+    """Test similarity some non normalized attributes"""
+    data = {
+        "source":"Do you have a bike?",
+        "attributes":["materials.sportiveCar", "materials.bi-plane", "materials.undefined_vehicle" ]
+        }
+    response = client.post("/calculateSimilarityOf", json=data)
+    assert response.status_code == 200
+    assert response.json() == {"similarities":[{"attribute":"materials.sportiveCar", "similarity":0.6239031848677311}, {"attribute":"materials.bi-plane", "similarity":0.0}, {"attribute":"materials.undefined_vehicle", "similarity":0.6239031848677311}]}
+
+
+@pytest.mark.timeout(30)
 def test_post_calculate_similarity_of_none_attributes():
     """Test similarity without attributes"""
     data = {
