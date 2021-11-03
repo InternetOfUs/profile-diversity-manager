@@ -221,3 +221,53 @@ def test_post_calculate_diversity_for_domain_studying_career():
     response = client.post("/calculateDiversityOf", json=data)
     assert response.status_code == 200
     assert response.json() == {"value":0.19999999999999998}
+
+
+@pytest.mark.timeout(30)
+def test_post_calculate_diversity_for_domain_studying_career_2():
+    """Test calculate diversity for domain studying career"""
+    data = {
+        "agents":[
+                {
+                    "id":"2",
+                    "quantitativeAttributes":{
+                        "competences.u_active":0.4,
+                        "competences.u_read":0.4,
+                        "competences.u_essay":0.4,
+                        "competences.u_org":0.4,
+                        "competences.u_balance":0.4,
+                        "competences.u_assess":0.4,
+                        "competences.u_theory":0.4,
+                        "competences.u_pract":0.4                    
+                    },
+                    "qualitativeAttributes":{}
+                },
+                {
+                    "id":"1",
+                    "quantitativeAttributes":{
+                        "competences.u_active":0.0,
+                        "competences.u_read":0.0,
+                        "competences.u_essay":0.0,
+                        "competences.u_org":0.0,
+                        "competences.u_balance":0.0,
+                        "competences.u_assess":0.0,
+                        "competences.u_theory":0.0,
+                        "competences.u_pract":0.0                    
+                    },
+                    "qualitativeAttributes":{}
+                }
+            ]
+        , "quantitativeAttributes": [
+            "competences.u_active",
+            "competences.u_read",
+            "competences.u_essay",
+            "competences.u_org",
+            "competences.u_balance",
+            "competences.u_assess",
+            "competences.u_theory",
+            "competences.u_pract"
+            ]
+        }
+    response = client.post("/calculateDiversityOf", json=data)
+    assert response.status_code == 200
+    assert response.json() == {"value":0.19999999999999998}
