@@ -195,14 +195,14 @@ def test_post_calculate_diversity_for_domain_studying_career():
                 {
                     "id":"2",
                     "quantitativeAttributes":{
-                        "competences.u_active":0.4,
-                        "competences.u_read":0.4,
-                        "competences.u_essay":0.4,
-                        "competences.u_org":0.4,
-                        "competences.u_balance":0.4,
-                        "competences.u_assess":0.4,
-                        "competences.u_theory":0.4,
-                        "competences.u_pract":0.4                    
+                        "competences.u_active":0.5,
+                        "competences.u_read":0.5,
+                        "competences.u_essay":0.5,
+                        "competences.u_org":0.5,
+                        "competences.u_balance":0.5,
+                        "competences.u_assess":0.5,
+                        "competences.u_theory":0.5,
+                        "competences.u_pract":0.5                    
                     },
                     "qualitativeAttributes":{}
                 }
@@ -220,25 +220,25 @@ def test_post_calculate_diversity_for_domain_studying_career():
         }
     response = client.post("/calculateDiversityOf", json=data)
     assert response.status_code == 200
-    assert response.json() == {"value":0.19999999999999998}
+    assert response.json() == {"value":0.25}
 
 
 @pytest.mark.timeout(30)
 def test_post_calculate_diversity_for_domain_studying_career_2():
-    """Test calculate diversity for domain studying career"""
+    """Test calculate diversity for domain studying career 2"""
     data = {
         "agents":[
                 {
                     "id":"2",
                     "quantitativeAttributes":{
-                        "competences.u_active":0.4,
-                        "competences.u_read":0.4,
-                        "competences.u_essay":0.4,
-                        "competences.u_org":0.4,
-                        "competences.u_balance":0.4,
-                        "competences.u_assess":0.4,
-                        "competences.u_theory":0.4,
-                        "competences.u_pract":0.4                    
+                        "competences.u_active":0.25,
+                        "competences.u_read":0.25,
+                        "competences.u_essay":0.25,
+                        "competences.u_org":0.25,
+                        "competences.u_balance":0.25,
+                        "competences.u_assess":0.25,
+                        "competences.u_theory":0.25,
+                        "competences.u_pract":0.25                    
                     },
                     "qualitativeAttributes":{}
                 },
@@ -270,4 +270,104 @@ def test_post_calculate_diversity_for_domain_studying_career_2():
         }
     response = client.post("/calculateDiversityOf", json=data)
     assert response.status_code == 200
-    assert response.json() == {"value":0.19999999999999998}
+    assert response.json() == {"value":0.125}
+
+
+@pytest.mark.timeout(30)
+def test_post_calculate_diversity_for_domain_studying_career_3():
+    """Test calculate diversity for domain studying career 3"""
+    data = {
+        "agents":[
+                {
+                    "id":"2",
+                    "quantitativeAttributes":{
+                        "competences.u_active":1,
+                        "competences.u_read":1,
+                        "competences.u_essay":1,
+                        "competences.u_org":1,
+                        "competences.u_balance":1,
+                        "competences.u_assess":1,
+                        "competences.u_theory":1,
+                        "competences.u_pract":1                    
+                    },
+                    "qualitativeAttributes":{}
+                },
+                {
+                    "id":"1",
+                    "quantitativeAttributes":{
+                        "competences.u_active":0.0,
+                        "competences.u_read":0.0,
+                        "competences.u_essay":0.0,
+                        "competences.u_org":0.0,
+                        "competences.u_balance":0.0,
+                        "competences.u_assess":0.0,
+                        "competences.u_theory":0.0,
+                        "competences.u_pract":0.0                    
+                    },
+                    "qualitativeAttributes":{}
+                }
+            ]
+        , "quantitativeAttributes": [
+            "competences.u_active",
+            "competences.u_read",
+            "competences.u_essay",
+            "competences.u_org",
+            "competences.u_balance",
+            "competences.u_assess",
+            "competences.u_theory",
+            "competences.u_pract"
+            ]
+        }
+    response = client.post("/calculateDiversityOf", json=data)
+    assert response.status_code == 200
+    assert response.json() == {"value":0.5}
+
+
+@pytest.mark.timeout(30)
+def test_post_calculate_diversity_for_domain_studying_career_4():
+    """Test calculate diversity for domain studying career 4"""
+    data = {
+        "agents":[
+                {
+                    "id":"2",
+                    "quantitativeAttributes":{
+                        "competences.u_active":0,
+                        "competences.u_read":0,
+                        "competences.u_essay":0,
+                        "competences.u_org":0,
+                        "competences.u_balance":0,
+                        "competences.u_assess":0,
+                        "competences.u_theory":0,
+                        "competences.u_pract":0                    
+                    },
+                    "qualitativeAttributes":{}
+                },
+                {
+                    "id":"1",
+                    "quantitativeAttributes":{
+                        "competences.u_active":0.75,
+                        "competences.u_read":0.75,
+                        "competences.u_essay":0.75,
+                        "competences.u_org":0.75,
+                        "competences.u_balance":0.75,
+                        "competences.u_assess":0.75,
+                        "competences.u_theory":0.75,
+                        "competences.u_pract":0.75                    
+                    },
+                    "qualitativeAttributes":{}
+                }
+            ]
+        , "quantitativeAttributes": [
+            "competences.u_active",
+            "competences.u_read",
+            "competences.u_essay",
+            "competences.u_org",
+            "competences.u_balance",
+            "competences.u_assess",
+            "competences.u_theory",
+            "competences.u_pract"
+            ]
+        }
+    response = client.post("/calculateDiversityOf", json=data)
+    assert response.status_code == 200
+    assert response.json() == {"value":0.375}
