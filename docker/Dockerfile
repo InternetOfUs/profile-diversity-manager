@@ -16,7 +16,7 @@ WORKDIR /dependencies
 
 # Install compilation resources
 ENV DEBIAN_FRONTEND=noninteractive
-RUN --mount=type=cache,id=apt-debian-stable,target=/var/cache/apt apt-get -y update -qq
+RUN --mount=type=cache,id=apt-debian-stable,target=/var/cache/apt apt-get -y update -qq --fix-missing
 RUN --mount=type=cache,id=apt-debian-stable,target=/var/cache/apt apt-get install -qq -y unzip build-essential locales locales cmake libicu-dev libboost-regex-dev libboost-system-dev libboost-program-options-dev libboost-thread-dev libboost-filesystem-dev zlib1g-dev swig python3-dev
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 RUN dpkg-reconfigure --frontend=noninteractive locales
